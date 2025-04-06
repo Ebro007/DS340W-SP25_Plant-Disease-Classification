@@ -60,7 +60,7 @@ def plot_confusion_matrix(y_true=None, y_pred=None, classes=None, config_dict=No
     print("______________________________________________________________")
 
     # Finding out the class names for labeling purpose
-    classes = list(test_generator.class_indices.keys())
+    #classes = list(test_generator.class_indices.keys())
     classes = [x.replace('_', ' ') for x in classes]
     con_mat_df = pd.DataFrame(con_mat_norm, index=classes, columns=classes)
 
@@ -84,7 +84,7 @@ def plot_confusion_matrix(y_true=None, y_pred=None, classes=None, config_dict=No
 
 
 def find_misclassified(y_true=None, y_pred=None, file_paths=None, config_dict=None):
-    if config is None:
+    if config_dict is None:
         print(f"\n\n[ERROR] No config dictionary found. \n Process Aborted!")
         return
     else:
