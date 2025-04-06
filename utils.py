@@ -22,7 +22,7 @@ def print_config(config_dict=None):
 def load_callbacks(config):
     # Model Saving Checkpoints
     checkpoint_filepath = config["checkpoint_filepath"]
-    model_checkpoint_callback = ModelCheckpoint(filepath=os.path.join(checkpoint_filepath, 'model_snapshot.ckpt'),
+    model_checkpoint_callback = ModelCheckpoint(filepath=os.path.join(checkpoint_filepath, 'model_snapshot.keras'),
                                                 save_weights_only=False,
                                                 monitor='val_acc',
                                                 mode='max',
@@ -30,9 +30,9 @@ def load_callbacks(config):
 
     # Early Stopper Callback
     early_stop = EarlyStopping(monitor='val_acc',
-                               patience=10,
-                               verbose=1,
-                               min_delta=1e-4)
+                                patience=10,
+                                verbose=1,
+                                min_delta=1e-4)
 
     # Learning Rate Scheduler
     reduce_lr = ReduceLROnPlateau(monitor='val_acc', factor=0.1, patience=4, verbose=1, min_delta=1e-4)
@@ -72,7 +72,7 @@ def plot_training_summary(run_config):
         plt.grid("both")
         plt.legend()
         plt.savefig(os.path.join(run_config['checkpoint_filepath'], 'graphs',
-                                 f"1.accuracy-comparison{run_config['fig_format']}"))
+                                f"1.accuracy-comparison{run_config['fig_format']}"))
 
         # Plotting the loss
         fig = plt.figure(figsize=(10, 6))
@@ -84,19 +84,20 @@ def plot_training_summary(run_config):
         plt.grid("both")
         plt.legend()
         plt.savefig(os.path.join(run_config['checkpoint_filepath'], 'graphs',
-                                 f"2.loss-comparison{run_config['fig_format']}"))
+                                f"2.loss-comparison{run_config['fig_format']}"))
 
         # Plotting the Learning Rate
-        fig = plt.figure(figsize=(10, 6))
-        plt.plot(df['lr'], "b*-", label="Training Loss")
-        plt.title('Training and Validation Loss Graph')
-        plt.xlabel('Epoch')
-        plt.ylabel('Learning Rate')
-        plt.grid("both")
-        plt.legend()
-        plt.savefig(os.path.join(run_config['checkpoint_filepath'],
-                                 'graphs',
-                                 f"3.learning-rate{run_config['fig_format']}"))
+        if 'lr' in df.columns:
+            fig = plt.figure(figsize=(10, 6))
+            plt.plot(df['lr'], "b*-", label="Training Loss")
+            plt.title('Training and Validation Loss Graph')
+            plt.xlabel('Epoch')
+            plt.ylabel('Learning Rate')
+            plt.grid("both")
+            plt.legend()
+            plt.savefig(os.path.join(run_config['checkpoint_filepath'],
+                                    'graphs',
+                                    f"3.learning-rate{run_config['fig_format']}"))
 
 
 if __name__ == "__main__":
