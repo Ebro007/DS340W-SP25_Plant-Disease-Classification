@@ -1,7 +1,7 @@
 {
-  "dataset_dir" : "PlantVillage-Tomato1",
-  "checkpoint_filepath": "MobileNetV3SmallExt",
-  "add_dense": false,
+  "dataset_dir" : "Tomato-Merged",
+  "checkpoint_filepath": "MobileNetV3Small-Ext-Dense-Aug",
+  "add_dense": true,
   "img_height": 224,
   "img_width": 224,
   "batch_size": 16,
@@ -11,9 +11,9 @@
   "fig_format": ".pdf",
   "data_augmentations":
   {
-    "TRAIN_AUG": false,
-    "VALID_AUG": false,
-    "TEST_AUG": false,
+    "TRAIN_AUG": true,
+    "VALID_AUG": true,
+    "TEST_AUG": true,
     "rotation_range": 20,
     "horizontal_flip": true,
     "width_shift_range": 0.2,

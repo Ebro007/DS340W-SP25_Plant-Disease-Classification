@@ -7,6 +7,21 @@ from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.applications import MobileNetV2, MobileNetV3Small, MobileNetV3Large, DenseNet201, ResNet152V2, VGG19, InceptionV3
 
 
+
+def get_compute_device():
+    gpus = tf.config.list_physical_devices('GPU')
+    if gpus:
+        print(f"[INFO]: Detected GPU(s): {[gpu.name for gpu in gpus]}")
+        try:
+            tf.config.experimental.set_memory_growth(gpus[0], True)
+        except:
+            print("[WARNING]: Could not set memory growth for GPU.")
+        return "/device:GPU:0"
+    else:
+        print("[WARNING]: No GPU found. Using CPU instead.")
+        return "/device:CPU:0"
+
+
 def build_model(config_file="config.json"):
     config = json.load(open(config_file, "r"))
 
@@ -94,11 +109,14 @@ def build_model(config_file="config.json"):
     # Building the Model
     model.compile(loss='sparse_categorical_crossentropy',
                   optimizer=opt,
-                  metrics=['acc', 'mse'])
+                  metrics=['acc'])
     return model
 
 
 if __name__ == "__main__":
-    model = build_model()
-    print(model)
-    model.summary()
+    compute_device = get_compute_device()
+    
+    with tf.device(compute_device):
+        model = build_model()
+        print(model)
+        model.summary()
