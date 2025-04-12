@@ -2,19 +2,17 @@ import os
 import shutil
 import random
 from glob import glob
+import csv
 
-def standardize_and_split(pv_dir, pd_dir, merged_dir, split_ratios=(0.7, 0.15, 0.15), seed=42):
+def standardize_and_split(datasets, merged_dir, split_ratios=(0.7, 0.15, 0.15), seed=42):
     random.seed(seed)
     os.makedirs(merged_dir, exist_ok=True)
     for split in ['Train', 'Val', 'Test']:
         os.makedirs(os.path.join(merged_dir, split), exist_ok=True)
 
-    datasets = [
-        ('plantvillage', pv_dir),
-        ('plantdoc', pd_dir)
-    ]
 
     all_split_records = {'train': [], 'valid': [], 'test': []}
+    dataset_log = []
 
     for tag, root in datasets:
         for class_name in os.listdir(root):
@@ -24,6 +22,13 @@ def standardize_and_split(pv_dir, pd_dir, merged_dir, split_ratios=(0.7, 0.15, 0
 
             images = glob(os.path.join(class_path, '*'))
             random.shuffle(images)
+
+            # Log dataset info
+            dataset_log.append({
+                'Dataset': tag,
+                'Class': class_name,
+                'Count': len(images)
+            })
 
             n_total = len(images)
             n_train = int(n_total * split_ratios[0])
@@ -54,16 +59,32 @@ def standardize_and_split(pv_dir, pd_dir, merged_dir, split_ratios=(0.7, 0.15, 0
                     else:
                         all_split_records["test"].append(relative_path)
 
+    # Write Dataset Log
+    with open('dataset_log.csv', 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=['Dataset', 'Class', 'Count'])
+        writer.writeheader()
+        writer.writerows(dataset_log)
+    print("[INFO] Dataset log saved to dataset_log.csv")
+
+
     # Write split files
     os.makedirs("splits", exist_ok=True)
     for key in all_split_records:
         with open(os.path.join("splits", f"{key}.txt"), "w") as f:
             f.write("\n".join(all_split_records[key]))
             print(f"[INFO] Wrote {len(all_split_records[key])} records to {key}.txt")
+            
 
 if __name__ == "__main__":
+    datasets_list = [
+        ('plantvillage', "./PV-Tomato/"),
+        ('plantdoc', "./PD-Tomato/"),
+        ('TLDD', "./Tomato Leaf Disease Dataset/TomatoDataset/"),
+        ('DCPDD', "./Dataset for Crop Pest and Disease Detection/Tomato/"),
+        ('TOM2024', "./TOM2024/tomato_diseases/"),
+        ('taiwan', "./taiwan/Tomato/")
+    ]
     standardize_and_split(
-        pv_dir="PV-Tomato",
-        pd_dir="PD-Tomato",
+        datasets = datasets_list,
         merged_dir="Tomato-Merged"
     )
