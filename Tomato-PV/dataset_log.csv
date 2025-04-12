@@ -1,0 +1,11 @@
+Dataset,Class,Count
+plantvillage,Tomato___bacterial_spot,2127
+plantvillage,Tomato___early_blight,1404
+plantvillage,Tomato___healthy,1591
+plantvillage,Tomato___late_blight,1909
+plantvillage,Tomato___leaf_mold,952
+plantvillage,Tomato___mosaic_virus,373
+plantvillage,Tomato___septoria_leaf_spot,1771
+plantvillage,Tomato___spider_mites,1676
+plantvillage,Tomato___target_spot,1404
+plantvillage,Tomato___yellow_leaf_curl_virus,5357

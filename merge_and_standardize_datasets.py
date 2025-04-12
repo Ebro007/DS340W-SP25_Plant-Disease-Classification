@@ -4,13 +4,14 @@ import random
 from glob import glob
 import csv
 from pathlib import Path
+import json
 
-def standardize_and_split(datasets, categories, merged_dir, split_ratios=(0.7, 0.15, 0.15), seed=42):
+def standardize_and_split(datasets, categories, data_dir, split_ratios=(0.7, 0.15, 0.15), seed=42):
     random.seed(seed)
-    merged_dir = Path(merged_dir)
-    merged_dir.mkdir(parents=True, exist_ok=True)
+    data_dir = Path(data_dir)
+    data_dir.mkdir(parents=True, exist_ok=True)
     for split in ['Train', 'Val', 'Test']:
-        split_dir = merged_dir / split
+        split_dir = data_dir / split
         split_dir.mkdir(parents=True, exist_ok=True)
 
 
@@ -27,7 +28,7 @@ def standardize_and_split(datasets, categories, merged_dir, split_ratios=(0.7, 0
                 continue
             
             class_path = root_path / class_name
-            if not class_path.isdir():
+            if not class_path.is_dir():
                 continue
 
             images = list(class_dir.glob("*"))#glob(os.path.join(class_path, '*'))
@@ -52,7 +53,7 @@ def standardize_and_split(datasets, categories, merged_dir, split_ratios=(0.7, 0
             }
 
             for split, files in split_groups.items():
-                split_dir = merged_dir / split / class_name
+                split_dir = data_dir / split / class_name
                 split_dir.mkdir(parents=True, exist_ok=True)
 
                 for idx, src_path in enumerate(files):
@@ -70,7 +71,7 @@ def standardize_and_split(datasets, categories, merged_dir, split_ratios=(0.7, 0
                         all_split_records["test"].append(relative_path)
 
     # Write Dataset Log
-    log_path = merged_dir / 'dataset_log.csv'
+    log_path = data_dir / 'dataset_log.csv'
     with open(log_path, 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=['Dataset', 'Class', 'Count'])
         writer.writeheader()
@@ -84,7 +85,7 @@ def standardize_and_split(datasets, categories, merged_dir, split_ratios=(0.7, 0
     for key in all_split_records:
         split_file = splits_dir / f"{key}.txt"
         with split_file.open("w") as f:
-            f.write("\n".join(all_split_records[key]))
+            f.write("\n".join(map(str, all_split_records[key])))
         print(f"[INFO] Wrote {len(all_split_records[key])} records to {key}.txt")
         
 
@@ -101,18 +102,19 @@ if __name__ == "__main__":
         "Tomato___mosaic_virus",
         "Tomato___healthy"
     ]
-    
     datasets_list = [
-        ('plantvillage', "./PV-Tomato"),
-        ('plantdoc', "./PD-Tomato"),
-        ('TLDD', "./Tomato Leaf Disease Dataset/TomatoDataset"),
-        ('DCPDD', "./Dataset for Crop Pest and Disease Detection/Tomato"),
-        ('TOM2024', "./TOM2024/tomato_diseases"),
-        ('taiwan', "./taiwan/Tomato")
+        ('plantvillage', "./PV-Tomato")#,
+        #('plantdoc', "./PD-Tomato"),
+        #('TLDD', "./Tomato Leaf Disease Dataset/TomatoDataset"),
+        #('DCPDD', "./Dataset for Crop Pest and Disease Detection/Tomato"),
+        #('TOM2024', "./TOM2024/tomato_diseases"),
+        #('taiwan', "./taiwan/Tomato")
     ]
+    
+    config = json.load(open("config.json", "r"))
     
     standardize_and_split(
         datasets = datasets_list,
         categories = allowed_categories,
-        merged_dir="./Tomato-Merged"
+        data_dir = config["dataset_dir"]
     )

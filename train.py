@@ -4,6 +4,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="keras.src.traine
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress INFO/WARNING logs
 import json
 import time
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
@@ -14,6 +15,7 @@ from utils import print_config
 from utils import load_callbacks
 from utils import save_training_history
 from utils import plot_training_summary
+from utils import EpochLogger, log_info
 from dataset import load_dataset
 from model import build_model
 
@@ -22,22 +24,29 @@ def run():
     # Loading the running configuration
     config = json.load(open("config.json", "r"))
     print_config(config)
+    log_info(config)
 
     # Loading the dataloaders
     train_generator, valid_generator, test_generator = load_dataset()
 
     # Loading the model
+    log_info("Loading model\n")
     model = build_model()
+
+    callbacks_list = load_callbacks(config)
+    callbacks_list.append(EpochLogger())
 
     # Training the model
     start = time.time()
+    log_info(f"Model Training Start Time: {start}\n")
     train_history = model.fit(train_generator,
                                 epochs=config["epochs"],
                                 #steps_per_epoch=len(train_generator),
                                 validation_data=valid_generator,
                                 #validation_steps=len(valid_generator),
-                                callbacks=load_callbacks(config))
+                                callbacks=callbacks_list)
     end = time.time()
+    log_info(f"Model Training End Time: {end}\n")
 
     # Saving the model
     checkpoint_path = Path(config["checkpoint_filepath"])
@@ -47,17 +56,20 @@ def run():
         checkpoint_path.mkdir(parents=True, exist_ok=True)
     print(f"[INFO] Saving the model and log in \"{config['checkpoint_filepath']}\" directory")
     model.save(str(checkpoint_path / 'saved_model.keras'))
-
+    log_info(f"Model Saved to {checkpoint_path}\n")
+    
     # Saving the Training History
     save_training_history(train_history, config)
-
+    log_info(f"Training History Saved\n")
     # Plotting the Training History
     plot_training_summary(config)
 
     # Training Summary
     training_time_elapsed = end - start
     print(f"[INFO] Total Time elapsed: {training_time_elapsed} seconds")
+    log_info(f"[INFO] Total Time elapsed: {training_time_elapsed} seconds")
     print(f"[INFO] Time per epoch: {training_time_elapsed//config['epochs']} seconds")
+    log_info(f"[INFO] Time per epoch: {training_time_elapsed//config['epochs']} seconds")
 
 
 
@@ -93,7 +105,8 @@ def run():
     with report_path.open("w") as f:
         f.write(report)
     print(f"[INFO] Classification report saved to {report_path}")
-
+    log_info(f"Classification report saved to {report_path}")
+    
     # Confusion Matrix
     # Load the class mapping from the merged dataset folder.
     dataset_dir = Path(config["dataset_dir"])
@@ -128,7 +141,7 @@ def run():
     cm_path = graph_dir / "confusion_matrix_training.pdf"
     plt.savefig(cm_path)
     print(f"[INFO] Confusion matrix saved to {cm_path}")
-    
+    log_info(f"Confusion matrix saved to {cm_path}")
     
     
     

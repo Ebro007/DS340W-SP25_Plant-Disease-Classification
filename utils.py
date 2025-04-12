@@ -4,10 +4,31 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from tensorflow.keras.callbacks import Callback, EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
 from pathlib import Path
+from datetime import datetime
 
 # Setting default fontsize and dpi
 plt.rcParams["font.size"] = 12
 plt.rcParams["savefig.dpi"] = 300
+
+default_config_file = 'config.json'
+config = json.load(open(default_config_file, 'r'))
+
+checkpoint_dir = Path(config["checkpoint_filepath"])
+log_path = checkpoint_dir / "training.log"
+
+def log_info(msg):
+    if log_path is not None:
+        if not log_path.parent.exists():
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+        with log_path.open("a") as f:
+            f.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {msg}\n")
+
+class EpochLogger(Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        if logs is None:
+            logs = {}
+        msg = f"Epoch {epoch + 1} - " + ", ".join([f"{key}: {value:.4f}" for key, value in logs.items()])
+        log_info(msg)
 
 
 def print_config(config_dict=None):
@@ -115,7 +136,5 @@ def plot_training_summary(config):
 
 if __name__ == "__main__":
     # Testing the script
-    default_config_file = 'config.json'
-    config = json.load(open(default_config_file, 'r'))
     print_config(config)
     plot_training_summary(config)
