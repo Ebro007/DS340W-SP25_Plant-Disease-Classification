@@ -3,6 +3,7 @@ import json
 import pandas as pd
 import matplotlib.pyplot as plt
 from tensorflow.keras.callbacks import Callback, EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
+from pathlib import Path
 
 # Setting default fontsize and dpi
 plt.rcParams["font.size"] = 12
@@ -21,8 +22,8 @@ def print_config(config_dict=None):
 
 def load_callbacks(config):
     # Model Saving Checkpoints
-    checkpoint_filepath = config["checkpoint_filepath"]
-    model_checkpoint_callback = ModelCheckpoint(filepath=os.path.join(checkpoint_filepath, 'model_snapshot.keras'),
+    checkpoint_filepath = Path(config["checkpoint_filepath"])
+    model_checkpoint_callback = ModelCheckpoint(filepath=checkpoint_filepath / 'model_snapshot.keras',
                                                 save_weights_only=False,
                                                 monitor='val_acc',
                                                 mode='max',
@@ -41,26 +42,30 @@ def load_callbacks(config):
     return callbacks_list
 
 
-def save_training_history(train_history, run_config):
+def save_training_history(train_history, config):
+    checkpoint_filepath = Path(config["checkpoint_filepath"])
     history = train_history.history
     df = pd.DataFrame(history)
-    filepath = os.path.join(run_config["checkpoint_filepath"], 'train_log.csv')
-    if os.path.exists(filepath):
+    filepath = checkpoint_filepath / 'train_log.csv'
+    if filepath.exists():
         df.to_csv(filepath)
         print(
-            f"[INFO] Training log is overwritten in {os.path.join(run_config['checkpoint_filepath'], 'train_log.csv')}")
+            f"[INFO] Training log is overwritten in {filepath}")
     else:
         df.to_csv(filepath)
-        print(f"[INFO] Training log is written in {os.path.join(run_config['checkpoint_filepath'], 'train_log.csv')}")
+        print(f"[INFO] Training log is written in {filepath}")
 
 
-def plot_training_summary(run_config):
-    if not os.path.exists(os.path.join(run_config['checkpoint_filepath'], 'train_log.csv')):
-        print(f"[ERROR] Log file {os.path.join(run_config['checkpoint_filepath'], 'train_log.csv')} doesn't exist")
+def plot_training_summary(config):
+    checkpoint_filepath = Path(config["checkpoint_filepath"])
+    log_path = checkpoint_filepath / 'train_log.csv'
+    if not log_path.exists():
+        print(f"[ERROR] Log file {log_path} doesn't exist")
     else:
-        df = pd.read_csv(os.path.join(run_config['checkpoint_filepath'], 'train_log.csv'))
-        if not os.path.exists(os.path.join(run_config['checkpoint_filepath'], 'graphs')):
-            os.mkdir(os.path.join(run_config['checkpoint_filepath'], 'graphs'))
+        df = pd.read_csv(log_path)
+        graph_dir = checkpoint_filepath / "graphs"
+        if not graph_dir.exists():
+            graph_dir.mkdir(parents=True, exist_ok=True)
 
         # Plotting the accuracy
         fig = plt.figure(figsize=(10, 6))
@@ -71,8 +76,7 @@ def plot_training_summary(run_config):
         plt.ylabel('Accuracy')
         plt.grid("both")
         plt.legend()
-        plt.savefig(os.path.join(run_config['checkpoint_filepath'], 'graphs',
-                                f"1.accuracy-comparison{run_config['fig_format']}"))
+        plt.savefig(str(graph_dir / f"1.accuracy-comparison{config['fig_format']}"))
 
         # Plotting the loss
         fig = plt.figure(figsize=(10, 6))
@@ -83,8 +87,19 @@ def plot_training_summary(run_config):
         plt.ylabel('Loss')
         plt.grid("both")
         plt.legend()
-        plt.savefig(os.path.join(run_config['checkpoint_filepath'], 'graphs',
-                                f"2.loss-comparison{run_config['fig_format']}"))
+        plt.savefig(str(graph_dir / f"2.loss-comparison{config['fig_format']}"))
+
+        #Plotting the AUC
+        if 'auc' in df.columns:
+            fig = plt.figure(figsize=(10, 6))
+            plt.plot(df['auc'], "g*-", label="Training AUC")
+            plt.plot(df['val_auc'], "r*-", label="Validation AUC")
+            plt.title('Training and Validation AUC Graph')
+            plt.xlabel('Epoch')
+            plt.ylabel('AUC')
+            plt.grid("both")
+            plt.legend()
+            plt.savefig(str(graph_dir / f"4.auc-comparison{config['fig_format']}"))
 
         # Plotting the Learning Rate
         if 'lr' in df.columns:
@@ -95,9 +110,7 @@ def plot_training_summary(run_config):
             plt.ylabel('Learning Rate')
             plt.grid("both")
             plt.legend()
-            plt.savefig(os.path.join(run_config['checkpoint_filepath'],
-                                    'graphs',
-                                    f"3.learning-rate{run_config['fig_format']}"))
+            plt.savefig(str(graph_dir / f"3.learning-rate{config['fig_format']}"))
 
 
 if __name__ == "__main__":

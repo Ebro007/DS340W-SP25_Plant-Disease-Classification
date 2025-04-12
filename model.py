@@ -1,25 +1,12 @@
 import json
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras.metrics import AUC#, SparseCategoricalAccuracy
+from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import BatchNormalization, Dense, Flatten, Dropout
 from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.applications import MobileNetV2, MobileNetV3Small, MobileNetV3Large, DenseNet201, ResNet152V2, VGG19, InceptionV3
 
-
-
-def get_compute_device():
-    gpus = tf.config.list_physical_devices('GPU')
-    if gpus:
-        print(f"[INFO]: Detected GPU(s): {[gpu.name for gpu in gpus]}")
-        try:
-            tf.config.experimental.set_memory_growth(gpus[0], True)
-        except:
-            print("[WARNING]: Could not set memory growth for GPU.")
-        return "/device:GPU:0"
-    else:
-        print("[WARNING]: No GPU found. Using CPU instead.")
-        return "/device:CPU:0"
 
 
 def build_model(config_file="config.json"):
@@ -30,51 +17,51 @@ def build_model(config_file="config.json"):
     if config["model_configuration"]["backbone_name"] == "mobilenetv2":
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = MobileNetV2(input_shape=(config["img_width"], config["img_height"], 3),
-                               include_top=False,
-                               pooling="max",
-                               weights="imagenet")
+                            include_top=False,
+                            pooling="max",
+                            weights="imagenet")
 
     elif config["model_configuration"]["backbone_name"] == "mobilenetv3small":
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = MobileNetV3Small(input_shape=(config["img_width"], config["img_height"], 3),
-                               include_top=False,
-                               pooling="max",
-                               weights="imagenet")
+                            include_top=False,
+                            pooling="max",
+                            weights="imagenet")
 
     elif config["model_configuration"]["backbone_name"] == "mobilenetv3large":
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = MobileNetV3Large(input_shape=(config["img_width"], config["img_height"], 3),
-                               include_top=False,
-                               pooling="max",
-                               weights="imagenet")
+                            include_top=False,
+                            pooling="max",
+                            weights="imagenet")
 
     elif config["model_configuration"]["backbone_name"] == "densenet201":
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = DenseNet201(input_shape=(config["img_width"], config["img_height"], 3),
-                               include_top=False,
-                               pooling="max",
-                               weights="imagenet")
+                            include_top=False,
+                            pooling="max",
+                            weights="imagenet")
 
     elif config["model_configuration"]["backbone_name"] == "resnet152v2":
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = ResNet152V2(input_shape=(config["img_width"], config["img_height"], 3),
-                               include_top=False,
-                               pooling="max",
-                               weights="imagenet")
+                            include_top=False,
+                            pooling="max",
+                            weights="imagenet")
 
     elif config["model_configuration"]["backbone_name"] == "vgg19":
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = VGG19(input_shape=(config["img_width"], config["img_height"], 3),
-                         include_top=False,
-                         pooling="max",
-                         weights="imagenet")
+                            include_top=False,
+                            pooling="max",
+                            weights="imagenet")
 
     elif config["model_configuration"]["backbone_name"] == "inceptionv3":
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = InceptionV3(input_shape=(config["img_width"], config["img_height"], 3),
-                               include_top=False,
-                               pooling="max",
-                               weights="imagenet")
+                            include_top=False,
+                            pooling="max",
+                            weights="imagenet")
     else:
         identifier = config["model_configuration"]["backbone_name"]
         print(f"[ERROR]: No application module found with identifier: {identifier}")
@@ -107,10 +94,34 @@ def build_model(config_file="config.json"):
         opt = SGD()
 
     # Building the Model
-    model.compile(loss='sparse_categorical_crossentropy',
-                  optimizer=opt,
-                  metrics=['acc'])
+    model.compile(loss='categorical_crossentropy', #changed from sparse categorical crossentropy since now one-hot encoded
+                    optimizer=opt,
+                    metrics=['acc', AUC(curve='ROC', multi_label=True, num_labels=config['n_classes'])]
+    )
     return model
+
+
+def get_compute_device():
+    # Auto-detect best device
+    try:
+        if tf.config.list_physical_devices('GPU'):
+            print("[INFO] Running on GPU")
+            device_name = '/device:GPU:0'
+        elif tf.config.list_physical_devices('TPU'):
+            print("[INFO] Running on TPU")
+            resolver = tf.distribute.cluster_resolver.TPUClusterResolver()
+            tf.config.experimental_connect_to_cluster(resolver)
+            tf.tpu.experimental.initialize_tpu_system(resolver)
+            strategy = tf.distribute.TPUStrategy(resolver)
+            device_name = '/device:TPU:0'
+        else:
+            print("[INFO] Running on Optimized CPU")
+            device_name = '/device:CPU:0'
+    except Exception as e:
+        print("[WARNING] Device detection failed, fallback to CPU")
+        device_name = '/device:CPU:0'
+    
+    return device_name
 
 
 if __name__ == "__main__":
@@ -118,5 +129,5 @@ if __name__ == "__main__":
     
     with tf.device(compute_device):
         model = build_model()
-        print(model)
+        #print(model)
         model.summary()

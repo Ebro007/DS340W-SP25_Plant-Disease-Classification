@@ -189,12 +189,12 @@ def applyHFEFilter(image, display: bool = False):
 
 
 if __name__ == "__main__":
-    img = cv2.imread("/home/sonymd/Downloads/ChestXray14Data/subset/00000003_005.png")
-    applyCLAHE(img, display=True)
-    #
+    #img = cv2.imread("/home/sonymd/Downloads/ChestXray14Data/subset/00000003_005.png")
+    #applyCLAHE(img, display=True)
+    print("No enhancements made")
 
-    applyHistogramEqualization(img, display=True)
+    #applyHistogramEqualization(img, display=True)
 
-    applyHFEFilter(img, display=True)
+    #applyHFEFilter(img, display=True)
 
     # applyHistogramEqualization(output, display=True)

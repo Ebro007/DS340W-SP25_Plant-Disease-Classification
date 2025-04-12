@@ -10,9 +10,7 @@ import pandas as pd
 import seaborn as sns
 import tensorflow as tf
 from keras.models import load_model
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score, mean_squared_error, classification_report, roc_auc_score
 
 from dataset import load_dataset
 
@@ -132,6 +130,9 @@ if __name__ == "__main__":
     pred_prob = model.predict(test_generator)
     y_pred = np.argmax(pred_prob, axis=1).astype(int)
     y_true = np.array(test_generator.classes).astype(int)
+    
+    auc = roc_auc_score(y_true, pred_prob, multi_class='ovr', average='macro')
+    print(f"[INFO] Test Set ROC-AUC Score: {auc:.4f}")
 
     # Getting the class names and file paths of the dataloader
     class_labels = list(test_generator.class_indices.keys())

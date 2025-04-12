@@ -15,13 +15,13 @@ def get_dataframe(filelist=None, labels_dict=None):
         labels_name = []
         for filepath in filelist:
             label = os.path.basename(os.path.dirname(filepath)).split('___')[1]
-            filenames.append(filepath)
+            filenames.append(filepath.replace("\\", "/")) # Replace windows default path symbol '\' with '/'
             labels_name.append(label)
             labels_idx.append(str(labels.index(label)))
         return pd.DataFrame({'filepath': filenames, 'label': labels_idx, 'label_tag': labels_name})
 
 
-def create_dataset(data_dir="Tomato-Merged"):
+def create_dataset(data_dir):
     # Setting up the split folders
     train_dir = os.path.join(data_dir, 'Train')
     valid_dir = os.path.join(data_dir, 'Val')
@@ -63,4 +63,5 @@ def create_dataset(data_dir="Tomato-Merged"):
 
 
 if __name__ == "__main__":
-    create_dataset("Tomato-Merged")
+    config = json.load(open("config.json", "r"))
+    create_dataset(config["dataset_dir"])

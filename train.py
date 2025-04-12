@@ -1,10 +1,14 @@
 import os
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="keras.src.trainers.data_adapters.py_dataset_adapter")
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress INFO/WARNING logs
 import json
 import time
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
 import seaborn as sns
+from pathlib import Path
 
 from utils import print_config
 from utils import load_callbacks
@@ -28,19 +32,21 @@ def run():
     # Training the model
     start = time.time()
     train_history = model.fit(train_generator,
-                              epochs=config["epochs"],
-                              #steps_per_epoch=len(train_generator),
-                              validation_data=valid_generator,
-                              #validation_steps=len(valid_generator),
-                              callbacks=load_callbacks(config))
+                                epochs=config["epochs"],
+                                #steps_per_epoch=len(train_generator),
+                                validation_data=valid_generator,
+                                #validation_steps=len(valid_generator),
+                                callbacks=load_callbacks(config))
     end = time.time()
 
     # Saving the model
-    if not os.path.exists(config["checkpoint_filepath"]):
+    checkpoint_path = Path(config["checkpoint_filepath"])
+    
+    if not checkpoint_path.exists():
         print(f"[INFO] Creating directory {config['checkpoint_filepath']} to save the trained model")
-        os.mkdir(config["checkpoint_filepath"])
+        checkpoint_path.mkdir(parents=True, exist_ok=True)
     print(f"[INFO] Saving the model and log in \"{config['checkpoint_filepath']}\" directory")
-    model.save(os.path.join(config["checkpoint_filepath"], 'saved_model.keras'))
+    model.save(str(checkpoint_path / 'saved_model.keras'))
 
     # Saving the Training History
     save_training_history(train_history, config)
@@ -65,30 +71,61 @@ def run():
     for i in range(len(test_generator)):
         x_batch, y_batch = test_generator[i]
         preds = model.predict(x_batch)
-        y_true.extend(y_batch)
+        
+        # Convert one-hot encoded labels to class indices if needed
+        if y_batch.ndim > 1 and y_batch.shape[1] > 1:
+            y_true.extend(np.argmax(y_batch, axis=1))
+        else:
+            y_true.extend(y_batch)
+        
         y_pred.extend(preds.argmax(axis=1))
 
     # Classification Report
-    report = classification_report(y_true, y_pred, digits=4)
-    report_path = os.path.join(config["checkpoint_filepath"], "graphs", "classification_report_training.txt")
+    report = classification_report(y_true, y_pred, digits=4, zero_division=0)
+    report_path = checkpoint_path / "graphs" / "classification_report_training.txt"
 
     # Create graph folder if not exists
-    graph_dir = os.path.join(config["checkpoint_filepath"], "graphs")
-    if not os.path.exists(graph_dir):
-        os.makedirs(graph_dir)
-
-    with open(report_path, "w") as f:
+    graph_dir = checkpoint_path / "graphs"
+    if not graph_dir.exists():
+        graph_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Save Classification Report
+    with report_path.open("w") as f:
         f.write(report)
     print(f"[INFO] Classification report saved to {report_path}")
 
     # Confusion Matrix
+    # Load the class mapping from the merged dataset folder.
+    dataset_dir = Path(config["dataset_dir"])
+    mapping_file = dataset_dir / "class_mapping.json"
+    
+    if mapping_file.exists():
+        with open(mapping_file, "r") as f:
+            class_mapping = json.load(f)
+        # Sort the keys (which are strings) by integer order so that the labels are in order.
+        class_names = [class_mapping[k] for k in sorted(class_mapping, key=lambda x: int(x))]
+    else:
+        print(f"[WARNING] Class mapping file not found at {mapping_file}. Using numeric labels instead.")
+        class_names = [str(i) for i in range(config['n_classes'])]
+
+    # Compute the confusion matrix using your predictions.
     cm = confusion_matrix(y_true, y_pred)
+
+    # Create the heatmap and assign the class names as tick labels.
     plt.figure(figsize=(10, 8))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+
     plt.title("Confusion Matrix")
     plt.xlabel("Predicted Label")
     plt.ylabel("True Label")
-    cm_path = os.path.join(config["checkpoint_filepath"], "graphs", "confusion_matrix_training.pdf")
+
+    # Set tick labels using the class names.
+    plt.xticks(ticks=range(len(class_names)), labels=class_names, rotation=45)
+    plt.yticks(ticks=range(len(class_names)), labels=class_names, rotation=0)
+    plt.tight_layout()
+
+    # Save the figure to the graphs folder inside your checkpoint filepath.
+    cm_path = graph_dir / "confusion_matrix_training.pdf"
     plt.savefig(cm_path)
     print(f"[INFO] Confusion matrix saved to {cm_path}")
     
