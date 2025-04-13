@@ -1,0 +1,22 @@
+[2025-04-13 16:22:17] Epoch 8 - loss: 1.6271, acc: 0.4728, auc: 0.7787, val_loss: 2.2984, val_acc: 0.3278, val_auc: 0.6961, lr: 0.0000
+[2025-04-13 16:26:12] Final ROC-AUC curve saved to MobileNetV2-Merged-Enhanced-AUC1\graphs\roc_auc_final.png
+[2025-04-13 16:26:12] Model Training End Time: 1744575972.2628117
+
+[2025-04-13 16:26:12] Training History Saved
+
+[2025-04-13 16:26:12] Model Saved to MobileNetV2-Merged-Enhanced-AUC1
+
+[2025-04-13 16:26:12] [INFO] Total Time elapsed: 10416.807702064514 seconds
+[2025-04-13 16:26:12] [INFO] Time per epoch: 1302.0 seconds
+[2025-04-13 16:29:54] Classification report saved to MobileNetV2-Merged-Enhanced-AUC1\graphs\classification_report_training.txt
+[2025-04-13 16:29:55] Confusion matrix saved to MobileNetV2-Merged-Enhanced-AUC1\graphs\confusion_matrix_training.pdf
+[2025-04-13 16:30:00] {'dataset_dir': './Tomato-Merged', 'checkpoint_filepath': './MobileNetV3Large-Merged-enhanced-AUC1', 'add_dense': True, 'img_height': 224, 'img_width': 224, 'batch_size': 16, 'epochs': 8, 'n_classes': 10, 'seed': 42, 'fig_format': '.pdf', 'data_augmentations': {'TRAIN_AUG': True, 'VALID_AUG': True, 'TEST_AUG': False, 'rotation_range': 20, 'horizontal_flip': True, 'width_shift_range': 0.2, 'height_shift_range': 0.2, 'shear_range': 0.2}, 'model_configuration': {'backbone_name': 'mobilenetv3large', 'optimizer': 'adam'}, 'learning_rates': {'initial_lr': 1e-05, 'max_lr': 0.0001}, 'version': '1.0.0'}
+[2025-04-13 16:30:01] Loading model
+
+[2025-04-13 16:30:02] Model Training Start Time: 1744576202.86659
+
+[2025-04-13 16:51:37] Epoch 1 - loss: 2.8729, acc: 0.1176, auc: 0.5341, val_loss: 3.2395, val_acc: 0.1148, val_auc: 0.4747, lr: 0.0000
+[2025-04-13 17:13:15] Epoch 2 - loss: 2.5581, acc: 0.1833, auc: 0.5962, val_loss: 2.9483, val_acc: 0.0752, val_auc: 0.4637, lr: 0.0000
+[2025-04-13 17:35:09] Epoch 3 - loss: 2.3366, acc: 0.2465, auc: 0.6401, val_loss: 3.3276, val_acc: 0.0817, val_auc: 0.4334, lr: 0.0000
+[2025-04-13 17:57:03] Epoch 4 - loss: 2.1587, acc: 0.3013, auc: 0.6799, val_loss: 2.6187, val_acc: 0.1403, val_auc: 0.4986, lr: 0.0000
+[2025-04-13 18:19:12] Epoch 5 - loss: 2.0499, acc: 0.3379, auc: 0.7014, val_loss: 2.4070, val_acc: 0.2890, val_auc: 0.5935, lr: 0.0000
