@@ -5,7 +5,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="keras.src.traine
 #os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress INFO/WARNING logs
 import json
 import time
-
+import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
@@ -18,7 +18,7 @@ from utils import save_training_history
 from utils import plot_training_summary
 from utils import EpochLogger, log_info, FinalROCAUCMultiCallback
 from dataset import load_dataset
-from model import build_model
+from model import build_model, get_compute_device
 
 
 def run():
@@ -49,8 +49,15 @@ def run():
     # Loading the dataloaders
     train_generator, valid_generator, test_generator = load_dataset()
 
+
+    compute_device = get_compute_device()
+    
     # Loading the model
     log_info("Loading model\n")
+    with tf.device(compute_device):
+        model = build_model()
+
+    
     model = build_model()
 
     callbacks_list = load_callbacks(config)
