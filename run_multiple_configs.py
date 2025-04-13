@@ -1,7 +1,7 @@
 import subprocess
 
 # List your config files (ensure these files exist, e.g., config1.json, config2.json, etc.)
-config_files = ["config-PV-v3small.json", "config-Merged-v3small.json", "config-PV-v2.json", "config-Merged-v3large.json"]
+config_files = ["config-PV-v3small.json", "config-Merged-v3small.json", "config-PV-v2.json", "config-Merged-v3large.json", "config-Merged-mobilevit.json"]
 
 for config_file in config_files:
     print(f"Running training with config: {config_file}")

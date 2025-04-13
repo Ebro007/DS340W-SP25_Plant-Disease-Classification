@@ -5,66 +5,86 @@ from tensorflow.keras.metrics import AUC#, SparseCategoricalAccuracy
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import BatchNormalization, Dense, Flatten, Dropout
 from tensorflow.keras.optimizers import Adam, SGD
-from tensorflow.keras.applications import MobileNetV2, MobileNetV3Small, MobileNetV3Large, DenseNet201, ResNet152V2, VGG19, InceptionV3
 
 
 
 def build_model(config_file="config.json"):
     config = json.load(open(config_file, "r"))
-
+    backbone_name = config["model_configuration"]["backbone_name"]
+    
     # Model Selection
     backbone = None
-    if config["model_configuration"]["backbone_name"] == "mobilenetv2":
+    if backbone_name == "mobilenetv2":
+        from tensorflow.keras.applications import MobileNetV2
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = MobileNetV2(input_shape=(config["img_width"], config["img_height"], 3),
                             include_top=False,
                             pooling="max",
                             weights="imagenet")
 
-    elif config["model_configuration"]["backbone_name"] == "mobilenetv3small":
+    elif backbone_name == "mobilenetv3small":
+        from tensorflow.keras.applications import MobileNetV3Small
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = MobileNetV3Small(input_shape=(config["img_width"], config["img_height"], 3),
                             include_top=False,
                             pooling="max",
                             weights="imagenet")
 
-    elif config["model_configuration"]["backbone_name"] == "mobilenetv3large":
+    elif backbone_name == "mobilenetv3large":
+        from tensorflow.keras.applications import MobileNetV3Large
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = MobileNetV3Large(input_shape=(config["img_width"], config["img_height"], 3),
                             include_top=False,
                             pooling="max",
                             weights="imagenet")
 
-    elif config["model_configuration"]["backbone_name"] == "densenet201":
+    elif backbone_name == "densenet201":
+        from tensorflow.keras.applications import DenseNet201
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = DenseNet201(input_shape=(config["img_width"], config["img_height"], 3),
                             include_top=False,
                             pooling="max",
                             weights="imagenet")
 
-    elif config["model_configuration"]["backbone_name"] == "resnet152v2":
+    elif backbone_name == "resnet152v2":
+        from tensorflow.keras.applications import ResNet152V2
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = ResNet152V2(input_shape=(config["img_width"], config["img_height"], 3),
                             include_top=False,
                             pooling="max",
                             weights="imagenet")
 
-    elif config["model_configuration"]["backbone_name"] == "vgg19":
+    elif backbone_name == "vgg19":
+        from tensorflow.keras.applications import VGG19
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = VGG19(input_shape=(config["img_width"], config["img_height"], 3),
                             include_top=False,
                             pooling="max",
                             weights="imagenet")
 
-    elif config["model_configuration"]["backbone_name"] == "inceptionv3":
+    elif backbone_name == "inceptionv3":
+        from tensorflow.keras.applications import InceptionV3
         print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
         backbone = InceptionV3(input_shape=(config["img_width"], config["img_height"], 3),
                             include_top=False,
                             pooling="max",
                             weights="imagenet")
+
+    elif backbone_name == "mobilevit":
+        print(f"[INFO]: Selected Model: {config['model_configuration']['backbone_name']}")
+        # Attempt to import a TensorFlow implementation of MobileViT.
+        try:
+            from mobilevit import MobileViT  # This module should be created/ported by you.
+            backbone = MobileViT(input_shape=(config["img_width"], config["img_height"], 3),
+                                include_top=False,
+                                pooling="max",
+                                weights="imagenet")  # Or set weights=None if pretrained weights aren’t available.
+        except ImportError as e:
+            raise ImportError("MobileViT module not found. Ensure you have implemented or ported a TensorFlow version of MobileViT in mobilevit_tf.py") from e
     else:
         identifier = config["model_configuration"]["backbone_name"]
         print(f"[ERROR]: No application module found with identifier: {identifier}")
+        raise ValueError(f"Unsupported backbone name: {identifier}")
 
     # Setting the transfer learning mode
     backbone.trainable = True
