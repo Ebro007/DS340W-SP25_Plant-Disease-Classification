@@ -47,8 +47,8 @@ def print_config(config_dict=None):
 def load_callbacks(config):
     # Model Saving Checkpoints
     checkpoint_filepath = Path(config["checkpoint_filepath"])
-    model_checkpoint_callback = ModelCheckpoint(filepath=str(checkpoint_filepath / 'model_snapshot.keras'),
-                                                save_weights_only=False,
+    model_checkpoint_callback = ModelCheckpoint(filepath=str(checkpoint_filepath / 'model_snapshot.h5'),
+                                                save_weights_only=True,
                                                 monitor='val_loss',
                                                 mode='min',
                                                 save_best_only=True)
@@ -95,45 +95,45 @@ def plot_training_summary(config):
             graph_dir.mkdir(parents=True, exist_ok=True)
 
         #Plotting the AUC
-        fig = plt.figure(figsize=(10, 6))
+        #fig = plt.figure(figsize=(10, 6))
         #if 'auc_1' in df.columns:
-        plt.plot(df['auc_1'], "g*-", label="Training AUC")
-        plt.plot(df['val_auc_1'], "r*-", label="Validation AUC")
+        #plt.plot(df['auc'], "g*-", label="Training AUC")
+        #plt.plot(df['val_auc'], "r*-", label="Validation AUC")
         #else:
         #    plt.plot(df['auc'], "g*-", label="Training AUC")
         #    plt.plot(df['val_auc'], "r*-", label="Validation AUC")
-        plt.title('Training and Validation AUC Graph')
-        plt.xlabel('Epoch')
-        plt.ylabel('AUC')
-        plt.grid("both")
-        plt.legend()
-        plt.savefig(str(graph_dir / f"4.auc-comparison{config['fig_format']}"))
+        #plt.title('Training and Validation AUC Graph')
+        #plt.xlabel('Epoch')
+        #plt.ylabel('AUC')
+        #plt.grid("both")
+        #plt.legend()
+        #plt.savefig(str(graph_dir / f"4.auc-comparison{config['fig_format']}"))
 
         # Plotting the accuracy
-        fig = plt.figure(figsize=(10, 6))
+        #fig = plt.figure(figsize=(10, 6))
         #if 'val_accuracy' in df.columns:
         #    plt.plot(df['accuracy'], "g*-", label="Training accuracy")
         #    plt.plot(df['val_accuracy'], "r*-", label="Validation accuracy")
         #else:
-        plt.plot(df['acc'], "g*-", label="Training accuracy")
-        plt.plot(df['val_acc'], "r*-", label="Validation accuracy")
-        plt.title('Training and Validation Accuracy Graph')
-        plt.xlabel('Epoch')
-        plt.ylabel('Accuracy')
-        plt.grid("both")
-        plt.legend()
-        plt.savefig(str(graph_dir / f"1.accuracy-comparison{config['fig_format']}"))
+        #plt.plot(df['acc'], "g*-", label="Training accuracy")
+        #plt.plot(df['val_acc'], "r*-", label="Validation accuracy")
+        #plt.title('Training and Validation Accuracy Graph')
+        #plt.xlabel('Epoch')
+        #plt.ylabel('Accuracy')
+        #plt.grid("both")
+        #plt.legend()
+        #plt.savefig(str(graph_dir / f"1.accuracy-comparison{config['fig_format']}"))
 
         # Plotting the loss
-        fig = plt.figure(figsize=(10, 6))
-        plt.plot(df['loss'], "g*-", label="Training Loss")
-        plt.plot(df['val_loss'], "r*-", label="Validation Loss")
-        plt.title('Training and Validation Loss Graph')
-        plt.xlabel('Epoch')
-        plt.ylabel('Loss')
-        plt.grid("both")
-        plt.legend()
-        plt.savefig(str(graph_dir / f"2.loss-comparison{config['fig_format']}"))
+        #fig = plt.figure(figsize=(10, 6))
+        #plt.plot(df['loss'], "g*-", label="Training Loss")
+        #plt.plot(df['val_loss'], "r*-", label="Validation Loss")
+        #plt.title('Training and Validation Loss Graph')
+        #plt.xlabel('Epoch')
+        #plt.ylabel('Loss')
+        #plt.grid("both")
+        #plt.legend()
+        #plt.savefig(str(graph_dir / f"2.loss-comparison{config['fig_format']}"))
 
         # Plotting the Learning Rate
         if 'lr' in df.columns:

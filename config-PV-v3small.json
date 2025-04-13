@@ -1,6 +1,6 @@
 {
   "dataset_dir" : "./Tomato-PV",
-  "checkpoint_filepath": "./MobileNetV3Small-PV-Enhanced-AUC",
+  "checkpoint_filepath": "./MobileNetV3Small-PV-Enhanced-AUC2",
   "add_dense": true,
   "img_height": 224,
   "img_width": 224,

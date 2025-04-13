@@ -44,7 +44,7 @@ def run():
     if len(sys.argv) > 1:
         config_file = sys.argv[1]
     else:
-        config_file = "config.json"
+        config_file = "config-Merged-mobilevit.json"
         
     config = json.load(open(config_file, "r"))
     checkpoint_path = Path(config["checkpoint_filepath"])
@@ -94,21 +94,24 @@ def run():
                                 validation_data=valid_generator,
                                 #validation_steps=len(valid_generator),
                                 callbacks=callbacks_list)
+    
     end = time.time()
     log_info(f"Model Training End Time: {end}\n")
 
+    # Saving the Training History
+    save_training_history(train_history, config)
+    log_info(f"Training History Saved\n")
+    
     # Saving the model
     
     if not checkpoint_path.exists():
         print(f"[INFO] Creating directory {config['checkpoint_filepath']} to save the trained model")
         checkpoint_path.mkdir(parents=True, exist_ok=True)
     print(f"[INFO] Saving the model and log in \"{config['checkpoint_filepath']}\" directory")
-    model.save(str(checkpoint_path / 'saved_model.keras'))
+    model.save(str(checkpoint_path / 'saved_model.keras'), save_format='keras')
     log_info(f"Model Saved to {checkpoint_path}\n")
     
-    # Saving the Training History
-    save_training_history(train_history, config)
-    log_info(f"Training History Saved\n")
+    
     # Plotting the Training History
     plot_training_summary(config)
 

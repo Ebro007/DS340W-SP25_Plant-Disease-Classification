@@ -1,0 +1,63 @@
+[2025-04-13 02:07:29] {'dataset_dir': './Tomato-PV', 'checkpoint_filepath': './MobileNetV3Small-PV-Dense-Aug-AUC-enhanced-TEST19', 'add_dense': True, 'img_height': 224, 'img_width': 224, 'batch_size': 16, 'epochs': 2, 'n_classes': 10, 'seed': 42, 'fig_format': '.pdf', 'data_augmentations': {'TRAIN_AUG': True, 'VALID_AUG': True, 'TEST_AUG': False, 'rotation_range': 20, 'horizontal_flip': True, 'width_shift_range': 0.2, 'height_shift_range': 0.2, 'shear_range': 0.2}, 'model_configuration': {'backbone_name': 'mobilenetv3small', 'optimizer': 'adam'}, 'learning_rates': {'initial_lr': 1e-05, 'max_lr': 0.0001}, 'version': '1.0.0'}
+[2025-04-13 02:07:30] Loading model
+
+[2025-04-13 02:07:32] Model Training Start Time: 1744524452.0427086
+
+[2025-04-13 02:28:57] Epoch 1 - loss: 2.7707, acc: 0.1448, auc: 0.5425, val_loss: 2.7156, val_acc: 0.0903, val_auc: 0.4887, lr: 0.0000
+[2025-04-13 02:50:06] Epoch 2 - loss: 2.4892, acc: 0.2102, auc: 0.6033, val_loss: 2.5056, val_acc: 0.1576, val_auc: 0.5172, lr: 0.0000
+[2025-04-13 02:53:57] Final ROC-AUC curve saved to MobileNetV3Small-PV-Dense-Aug-AUC-enhanced-TEST19\graphs\roc_auc_final.png
+[2025-04-13 02:53:57] Model Training End Time: 1744527237.7906678
+
+[2025-04-13 02:53:58] Model Saved to MobileNetV3Small-PV-Dense-Aug-AUC-enhanced-TEST19
+
+[2025-04-13 02:53:58] Training History Saved
+
+[2025-04-13 02:57:50] {'dataset_dir': './Tomato-PV', 'checkpoint_filepath': './MobileNetV3Small-PV-Enhanced-AUC1', 'add_dense': True, 'img_height': 224, 'img_width': 224, 'batch_size': 16, 'epochs': 8, 'n_classes': 10, 'seed': 42, 'fig_format': '.pdf', 'data_augmentations': {'TRAIN_AUG': True, 'VALID_AUG': True, 'TEST_AUG': False, 'rotation_range': 20, 'horizontal_flip': True, 'width_shift_range': 0.2, 'height_shift_range': 0.2, 'shear_range': 0.2}, 'model_configuration': {'backbone_name': 'mobilenetv3small', 'optimizer': 'adam'}, 'learning_rates': {'initial_lr': 1e-05, 'max_lr': 0.0001}, 'version': '1.0.0'}
+[2025-04-13 02:57:50] Loading model
+
+[2025-04-13 02:57:51] Model Training Start Time: 1744527471.8584516
+
+[2025-04-13 03:18:59] Epoch 1 - loss: 2.8154, acc: 0.1154, auc: 0.5325, val_loss: 2.9424, val_acc: 0.0856, val_auc: 0.4569, lr: 0.0000
+[2025-04-13 03:39:49] Epoch 2 - loss: 2.5246, acc: 0.1892, auc: 0.5897, val_loss: 3.0826, val_acc: 0.2890, val_auc: 0.4868, lr: 0.0000
+[2025-04-13 04:00:34] Epoch 3 - loss: 2.3127, acc: 0.2524, auc: 0.6346, val_loss: 2.6916, val_acc: 0.1141, val_auc: 0.4591, lr: 0.0000
+[2025-04-13 04:21:19] Epoch 4 - loss: 2.1379, acc: 0.3076, auc: 0.6720, val_loss: 2.4873, val_acc: 0.1904, val_auc: 0.4740, lr: 0.0000
+[2025-04-13 04:42:13] Epoch 5 - loss: 2.0062, acc: 0.3468, auc: 0.6988, val_loss: 2.1171, val_acc: 0.2958, val_auc: 0.6250, lr: 0.0000
+[2025-04-13 05:03:00] Epoch 6 - loss: 1.8997, acc: 0.3808, auc: 0.7185, val_loss: 1.9807, val_acc: 0.3519, val_auc: 0.7100, lr: 0.0000
+[2025-04-13 05:23:47] Epoch 7 - loss: 1.7916, acc: 0.4150, auc: 0.7406, val_loss: 1.9073, val_acc: 0.3822, val_auc: 0.7255, lr: 0.0000
+[2025-04-13 05:44:43] Epoch 8 - loss: 1.7138, acc: 0.4388, auc: 0.7582, val_loss: 1.7423, val_acc: 0.4505, val_auc: 0.7662, lr: 0.0000
+[2025-04-13 05:48:30] Final ROC-AUC curve saved to MobileNetV3Small-PV-Enhanced-AUC1\graphs\roc_auc_final.png
+[2025-04-13 05:48:30] Model Training End Time: 1744537710.2207453
+
+[2025-04-13 05:48:30] Model Saved to MobileNetV3Small-PV-Enhanced-AUC1
+
+[2025-04-13 05:48:30] Training History Saved
+
+[2025-04-13 07:38:57] {'dataset_dir': './Tomato-PV', 'checkpoint_filepath': './MobileNetV3Small-PV-Enhanced-AUC2', 'add_dense': True, 'img_height': 224, 'img_width': 224, 'batch_size': 16, 'epochs': 8, 'n_classes': 10, 'seed': 42, 'fig_format': '.pdf', 'data_augmentations': {'TRAIN_AUG': True, 'VALID_AUG': True, 'TEST_AUG': False, 'rotation_range': 20, 'horizontal_flip': True, 'width_shift_range': 0.2, 'height_shift_range': 0.2, 'shear_range': 0.2}, 'model_configuration': {'backbone_name': 'mobilenetv3small', 'optimizer': 'adam'}, 'learning_rates': {'initial_lr': 1e-05, 'max_lr': 0.0001}, 'version': '1.0.0'}
+[2025-04-13 07:38:58] Loading model
+
+[2025-04-13 07:38:59] Model Training Start Time: 1744544339.429769
+
+[2025-04-13 08:00:36] Epoch 1 - loss: 2.7759, acc: 0.1459, auc: 0.5379, val_loss: 2.8646, val_acc: 0.0255, val_auc: 0.5227, lr: 0.0000
+[2025-04-13 08:21:56] Epoch 2 - loss: 2.4341, acc: 0.2288, auc: 0.6070, val_loss: 3.2352, val_acc: 0.0727, val_auc: 0.5166, lr: 0.0000
+[2025-04-13 08:43:14] Epoch 3 - loss: 2.2249, acc: 0.2827, auc: 0.6501, val_loss: 3.5403, val_acc: 0.0838, val_auc: 0.4852, lr: 0.0000
+[2025-04-13 09:04:31] Epoch 4 - loss: 2.0334, acc: 0.3381, auc: 0.6893, val_loss: 3.3610, val_acc: 0.0856, val_auc: 0.5634, lr: 0.0000
+[2025-04-13 09:25:50] Epoch 5 - loss: 1.8719, acc: 0.3876, auc: 0.7221, val_loss: 2.9801, val_acc: 0.1094, val_auc: 0.5925, lr: 0.0000
+[2025-04-13 09:47:26] Epoch 6 - loss: 1.7854, acc: 0.4173, auc: 0.7403, val_loss: 2.5893, val_acc: 0.1576, val_auc: 0.6544, lr: 0.0000
+[2025-04-13 10:08:45] Epoch 7 - loss: 1.6693, acc: 0.4567, auc: 0.7682, val_loss: 2.2185, val_acc: 0.2688, val_auc: 0.7226, lr: 0.0000
+[2025-04-13 10:30:06] Epoch 8 - loss: 1.6159, acc: 0.4666, auc: 0.7797, val_loss: 2.0159, val_acc: 0.3170, val_auc: 0.7451, lr: 0.0000
+[2025-04-13 10:33:58] Final ROC-AUC curve saved to MobileNetV3Small-PV-Enhanced-AUC2\graphs\roc_auc_final.png
+[2025-04-13 10:33:58] Model Training End Time: 1744554838.3163638
+
+[2025-04-13 10:33:58] Model Saved to MobileNetV3Small-PV-Enhanced-AUC2
+
+[2025-04-13 10:33:58] Training History Saved
+
+[2025-04-13 10:33:58] [INFO] Total Time elapsed: 10498.886594772339 seconds
+[2025-04-13 10:33:58] [INFO] Time per epoch: 1312.0 seconds
+[2025-04-13 10:37:41] Classification report saved to MobileNetV3Small-PV-Enhanced-AUC2\graphs\classification_report_training.txt
+[2025-04-13 10:37:41] Confusion matrix saved to MobileNetV3Small-PV-Enhanced-AUC2\graphs\confusion_matrix_training.pdf
+[2025-04-13 10:37:46] {'dataset_dir': './Tomato-Merged', 'checkpoint_filepath': './MobileNetV3Small-Merged-Enhanced-AUC1', 'add_dense': True, 'img_height': 224, 'img_width': 224, 'batch_size': 16, 'epochs': 8, 'n_classes': 10, 'seed': 42, 'fig_format': '.pdf', 'data_augmentations': {'TRAIN_AUG': True, 'VALID_AUG': True, 'TEST_AUG': False, 'rotation_range': 20, 'horizontal_flip': True, 'width_shift_range': 0.2, 'height_shift_range': 0.2, 'shear_range': 0.2}, 'model_configuration': {'backbone_name': 'mobilenetv3small', 'optimizer': 'adam'}, 'learning_rates': {'initial_lr': 1e-05, 'max_lr': 0.0001}, 'version': '1.0.0'}
+[2025-04-13 10:37:47] Loading model
+
+[2025-04-13 10:37:48] Model Training Start Time: 1744555068.595874
+
