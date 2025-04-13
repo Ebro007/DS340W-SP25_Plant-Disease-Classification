@@ -29,8 +29,22 @@ def run():
         config_file = "config.json"
         
     config = json.load(open("config.json", "r"))
+    checkpoint_path = Path(config["checkpoint_filepath"])
     print_config(config)
     log_info(config)
+    
+    dataset_dir = Path(config["dataset_dir"])
+    mapping_file = dataset_dir / "class_mapping.json"
+    
+    if mapping_file.exists():
+        with open(mapping_file, "r") as f:
+            class_mapping = json.load(f)
+        # Sort the keys (which are strings) by integer order so that the labels are in order.
+        class_names = [class_mapping[k] for k in sorted(class_mapping, key=lambda x: int(x))]
+    else:
+        print(f"[WARNING] Class mapping file not found at {mapping_file}. Using numeric labels instead.")
+        class_names = [str(i) for i in range(config['n_classes'])]
+    
 
     # Loading the dataloaders
     train_generator, valid_generator, test_generator = load_dataset()
@@ -41,7 +55,13 @@ def run():
 
     callbacks_list = load_callbacks(config)
     callbacks_list.append(EpochLogger())
-    callbacks_list.append(FinalROCAUCMultiCallback())
+    
+    final_roc_auc = FinalROCAUCMultiCallback(
+        validation_data=valid_generator,
+        class_names=class_names,
+        save_path= checkpoint_path / "graphs" / "roc_auc_final.png"
+    )
+    callbacks_list.append(final_roc_auc)
     
     # Training the model
     start = time.time()
@@ -56,7 +76,6 @@ def run():
     log_info(f"Model Training End Time: {end}\n")
 
     # Saving the model
-    checkpoint_path = Path(config["checkpoint_filepath"])
     
     if not checkpoint_path.exists():
         print(f"[INFO] Creating directory {config['checkpoint_filepath']} to save the trained model")
@@ -116,17 +135,7 @@ def run():
     
     # Confusion Matrix
     # Load the class mapping from the merged dataset folder.
-    dataset_dir = Path(config["dataset_dir"])
-    mapping_file = dataset_dir / "class_mapping.json"
     
-    if mapping_file.exists():
-        with open(mapping_file, "r") as f:
-            class_mapping = json.load(f)
-        # Sort the keys (which are strings) by integer order so that the labels are in order.
-        class_names = [class_mapping[k] for k in sorted(class_mapping, key=lambda x: int(x))]
-    else:
-        print(f"[WARNING] Class mapping file not found at {mapping_file}. Using numeric labels instead.")
-        class_names = [str(i) for i in range(config['n_classes'])]
 
     # Compute the confusion matrix using your predictions.
     cm = confusion_matrix(y_true, y_pred)

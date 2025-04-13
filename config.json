@@ -1,6 +1,6 @@
 {
-  "dataset_dir" : "./PV-Tomato",
-  "checkpoint_filepath": "./MobileNetV3Small-Merged-Dense-Aug-AUC-enhanced-TEST5",
+  "dataset_dir" : "./Tomato-Merged",
+  "checkpoint_filepath": "./MobileNetV3Small-Merged-Dense-Aug-AUC-enhanced-TEST8",
   "add_dense": true,
   "img_height": 224,
   "img_width": 224,

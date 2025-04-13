@@ -6,6 +6,7 @@ from tensorflow.keras.callbacks import Callback, EarlyStopping, ReduceLROnPlatea
 from pathlib import Path
 from datetime import datetime
 from sklearn.metrics import roc_curve, auc
+import numpy as np
 
 # Setting default fontsize and dpi
 plt.rcParams["font.size"] = 12
@@ -45,7 +46,7 @@ def print_config(config_dict=None):
 def load_callbacks(config):
     # Model Saving Checkpoints
     checkpoint_filepath = Path(config["checkpoint_filepath"])
-    model_checkpoint_callback = ModelCheckpoint(filepath=str(checkpoint_filepath / 'model_snapshot.keras'),
+    model_checkpoint_callback = ModelCheckpoint(filepath=str(checkpoint_filepath / 'model_snapshot.h5'),
                                                 save_weights_only=False,
                                                 monitor='val_acc',
                                                 mode='max',
