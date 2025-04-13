@@ -103,12 +103,12 @@ if __name__ == "__main__":
         "Tomato___healthy"
     ]
     datasets_list = [
-        ('plantvillage', "./PV-Tomato")#,
-        #('plantdoc', "./PD-Tomato"),
-        #('TLDD', "./Tomato Leaf Disease Dataset/TomatoDataset"),
-        #('DCPDD', "./Dataset for Crop Pest and Disease Detection/Tomato"),
-        #('TOM2024', "./TOM2024/tomato_diseases"),
-        #('taiwan', "./taiwan/Tomato")
+        ('plantvillage', "./PV-Tomato"),
+        ('plantdoc', "./PD-Tomato"),
+        ('TLDD', "./Tomato Leaf Disease Dataset/TomatoDataset"),
+        ('DCPDD', "./Dataset for Crop Pest and Disease Detection/Tomato"),
+        ('TOM2024', "./TOM2024/tomato_diseases"),
+        ('taiwan', "./taiwan/Tomato")
     ]
     
     config = json.load(open("config.json", "r"))

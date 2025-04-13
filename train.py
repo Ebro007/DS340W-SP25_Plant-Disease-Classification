@@ -1,3 +1,4 @@
+import sys
 import os
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="keras.src.trainers.data_adapters.py_dataset_adapter")
@@ -15,13 +16,18 @@ from utils import print_config
 from utils import load_callbacks
 from utils import save_training_history
 from utils import plot_training_summary
-from utils import EpochLogger, log_info
+from utils import EpochLogger, log_info, FinalROCAUCMultiCallback
 from dataset import load_dataset
 from model import build_model
 
 
 def run():
     # Loading the running configuration
+    if len(sys.argv) > 1:
+        config_file = sys.argv[1]
+    else:
+        config_file = "config.json"
+        
     config = json.load(open("config.json", "r"))
     print_config(config)
     log_info(config)
@@ -35,7 +41,8 @@ def run():
 
     callbacks_list = load_callbacks(config)
     callbacks_list.append(EpochLogger())
-
+    callbacks_list.append(FinalROCAUCMultiCallback())
+    
     # Training the model
     start = time.time()
     log_info(f"Model Training Start Time: {start}\n")
@@ -55,7 +62,7 @@ def run():
         print(f"[INFO] Creating directory {config['checkpoint_filepath']} to save the trained model")
         checkpoint_path.mkdir(parents=True, exist_ok=True)
     print(f"[INFO] Saving the model and log in \"{config['checkpoint_filepath']}\" directory")
-    model.save(str(checkpoint_path / 'saved_model.keras'))
+    model.save(str(checkpoint_path / 'saved_model.h5'))
     log_info(f"Model Saved to {checkpoint_path}\n")
     
     # Saving the Training History

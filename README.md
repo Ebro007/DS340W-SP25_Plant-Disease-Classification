@@ -4,8 +4,6 @@ DS340W SP25 Plant disease classification project using robust training data and 
 The configs and the models were changed, with some testing done to start the transfer learning process and familiarize ourselves with the feature extractions mentioned in parent paper 1.
 
 
-If dataset is already processed, skip ahead to step 4. When using straight from the repository the dataset will be processed and mapped in 'Tomato-Merged'.
-
 1. Modify merge_and_standardize_datasets.py to include paths to included datasets. There are siz datasets currently selected, but you can modify the 'datasets_list' to include a new name and path to the dataset of images separated by labeled folder for each class of disease. New classes can also be added by including them in the list of 'allowed_categories'.
 
 2. Next, you must run bad_image.py to ensure all image paths are real and no images are corrupted.
@@ -17,4 +15,10 @@ If dataset is already processed, skip ahead to step 4. When using straight from 
 5. Then, run train.py.
 When finished training, model training results will be in the output directory.
 
-6. Finally, evaluate model performance by running evaluate.py.
+
+
+
+The data in the repository is processed. 
+If you want to run several models sequentially, then all the config.json files for the different models need to be modified and included in the run_multiple_configs.py file.
+
+Otherwise, run train.py

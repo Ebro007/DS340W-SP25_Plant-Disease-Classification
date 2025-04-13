@@ -1,0 +1,23 @@
+[2025-04-12 18:08:38] {'dataset_dir': './Tomato-Merged', 'checkpoint_filepath': './MobileNetV3Small-Merged-Dense-Aug-AUC-8', 'add_dense': True, 'img_height': 224, 'img_width': 224, 'batch_size': 16, 'epochs': 8, 'n_classes': 10, 'seed': 42, 'fig_format': '.pdf', 'data_augmentations': {'TRAIN_AUG': True, 'VALID_AUG': True, 'TEST_AUG': True, 'rotation_range': 20, 'horizontal_flip': True, 'width_shift_range': 0.2, 'height_shift_range': 0.2, 'shear_range': 0.2}, 'model_configuration': {'backbone_name': 'mobilenetv3small', 'optimizer': 'adam'}, 'learning_rates': {'initial_lr': 1e-05, 'max_lr': 0.0001}, 'version': '1.0.0'}
+[2025-04-12 18:08:40] Loading model
+
+[2025-04-12 18:08:40] Model Training Start Time: 1744495720.551355
+
+[2025-04-12 18:14:12] Epoch 1 - acc: 0.1613, auc: 0.5703, loss: 2.6750, val_acc: 0.0855, val_auc: 0.5383, val_loss: 2.7386, learning_rate: 0.0000
+[2025-04-12 18:19:28] Epoch 2 - acc: 0.2809, auc: 0.6720, loss: 2.2266, val_acc: 0.0892, val_auc: 0.5828, val_loss: 2.7491, learning_rate: 0.0000
+[2025-04-12 18:24:46] Epoch 3 - acc: 0.3620, auc: 0.7387, loss: 1.9446, val_acc: 0.2074, val_auc: 0.6073, val_loss: 2.3577, learning_rate: 0.0000
+[2025-04-12 18:30:11] Epoch 4 - acc: 0.4214, auc: 0.7828, loss: 1.7579, val_acc: 0.2972, val_auc: 0.7217, val_loss: 2.0231, learning_rate: 0.0000
+[2025-04-12 18:35:39] Epoch 5 - acc: 0.4614, auc: 0.8146, loss: 1.6166, val_acc: 0.3942, val_auc: 0.7916, val_loss: 1.8065, learning_rate: 0.0000
+[2025-04-12 18:41:01] Epoch 6 - acc: 0.4945, auc: 0.8384, loss: 1.5090, val_acc: 0.5500, val_auc: 0.8820, val_loss: 1.3599, learning_rate: 0.0000
+[2025-04-12 18:46:21] Epoch 7 - acc: 0.5275, auc: 0.8575, loss: 1.4136, val_acc: 0.6276, val_auc: 0.9184, val_loss: 1.1266, learning_rate: 0.0000
+[2025-04-12 18:51:46] Epoch 8 - acc: 0.5506, auc: 0.8709, loss: 1.3445, val_acc: 0.6495, val_auc: 0.9267, val_loss: 1.0544, learning_rate: 0.0000
+[2025-04-12 18:51:46] Model Training End Time: 1744498306.3786395
+
+[2025-04-12 18:51:46] Model Saved to MobileNetV3Small-Merged-Dense-Aug-AUC-8
+
+[2025-04-12 18:51:46] Training History Saved
+
+[2025-04-12 18:51:47] [INFO] Total Time elapsed: 2585.8272845745087 seconds
+[2025-04-12 18:51:47] [INFO] Time per epoch: 323.0 seconds
+[2025-04-12 18:52:37] Classification report saved to MobileNetV3Small-Merged-Dense-Aug-AUC-8\graphs\classification_report_training.txt
+[2025-04-12 18:52:38] Confusion matrix saved to MobileNetV3Small-Merged-Dense-Aug-AUC-8\graphs\confusion_matrix_training.pdf

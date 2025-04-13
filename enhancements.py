@@ -1,4 +1,4 @@
-# %%
+
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
@@ -31,6 +31,14 @@ def applyCLAHE(image, display: bool = False):
     """
     image_bw = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
+    # Ensure image_bw is uint8. If it's a float in [0,1] or otherwise, convert appropriately.
+    if image_bw.dtype != 'uint8':
+        # If values are in [0,1], scale them to [0,255]
+        if image_bw.max() <= 1.0:
+            image_bw = (image_bw * 255).astype('uint8')
+        else:
+            image_bw = image_bw.astype('uint8')
+    
     # The declaration of CLAHE
     # clipLimit -> Threshold for contrast limiting
     clahe = cv2.createCLAHE(clipLimit=5)
@@ -38,7 +46,7 @@ def applyCLAHE(image, display: bool = False):
     final_img = np.stack((final_img,) * 3, axis=-1)
 
     # Ordinary thresholding the same image
-    _, ordinary_img = cv2.threshold(image_bw, 155, 255, cv2.THRESH_BINARY)
+    #_, ordinary_img = cv2.threshold(image_bw, 155, 255, cv2.THRESH_BINARY)
 
     if display:
         fig = plt.figure(figsize=(9, 3), dpi=300)
@@ -119,7 +127,7 @@ def applyHistogramEqualization(image, display: bool = False):
 
         plt.plot
 
-    print("final shape", img_enhanced.shape)
+    #print("final shape", img_enhanced.shape)
     return img_enhanced
 
 
@@ -184,7 +192,7 @@ def applyHFEFilter(image, display: bool = False):
         plt.title("HF Enhanced Image")
         plt.show()
 
-    print(output.shape)
+    #print(output.shape)
     return output
 
 

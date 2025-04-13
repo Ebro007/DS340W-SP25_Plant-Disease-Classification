@@ -1,25 +1,25 @@
-1.
+1. PV-Tomato
 PlantVillage
 https://github.com/spMohanty/PlantVillage-Dataset
-2.
+2. PD_Tomato
 PlantDoc (India)
 https://github.com/pratikkayal/PlantDoc-Dataset
-3.
+3. TLDD
 Tomato Leaf Disease Dataset
 https://data.mendeley.com/datasets/zfv4jj7855/1
-4.
+4. DCPDD
 Dataset for Crop Pest and Disease Detection
 https://data.mendeley.com/datasets/bwh3zbpkpv/1
-5.
+5. TOM2024
 TOM2024 English (Africa)
 https://ppedmas.org/download_phone_images.php
-6.
+6. NOT USED(yet)
 Scraped data
 https://universe.roboflow.com/absolute-foods-ownqh/tomato-disease-b518h/dataset/1
-7.
+7. NOT USED
 Early Detection of Tomato Bacterial Leaf Spot Disease
 https://agdatacommons.nal.usda.gov/articles/dataset/Data_from_b_Hyperspectral_Imaging_Analysis_for_Early_Detection_of_Tomato_Bacterial_Leaf_Spot_Disease_b_/26046328?file=47085031
-8.
+8. taiwan
 Dataset of Tomato Leaves (taiwan)
 https://data.mendeley.com/datasets/ngdgg79rzb/1
 
