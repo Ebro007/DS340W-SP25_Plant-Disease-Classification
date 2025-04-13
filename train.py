@@ -44,7 +44,7 @@ def run():
     if len(sys.argv) > 1:
         config_file = sys.argv[1]
     else:
-        config_file = "config-Merged-mobilevit.json"
+        config_file = "config-Merged-v2.json"
         
     config = json.load(open(config_file, "r"))
     checkpoint_path = Path(config["checkpoint_filepath"])
