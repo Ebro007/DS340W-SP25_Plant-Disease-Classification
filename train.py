@@ -20,6 +20,24 @@ from utils import EpochLogger, log_info, FinalROCAUCMultiCallback
 from dataset import load_dataset
 from model import build_model, get_compute_device
 
+# TPU / GPU / CPU Auto Device Selection
+try:
+    tpu = tf.distribute.cluster_resolver.TPUClusterResolver()  # Detect TPU
+    print(f"[INFO] Running on TPU: {tpu.master()}")
+except ValueError:
+    tpu = None
+    print("[INFO] TPU not found. Using GPU/CPU")
+
+if tpu:
+    tf.config.experimental_connect_to_cluster(tpu)
+    tf.tpu.experimental.initialize_tpu_system(tpu)
+    strategy = tf.distribute.TPUStrategy(tpu)
+else:
+    strategy = tf.distribute.get_strategy()  # GPU or CPU strategy
+
+print(f"[INFO] Number of Replicas in Sync: {strategy.num_replicas_in_sync}")
+
+
 
 def run():
     # Loading the running configuration
@@ -50,11 +68,12 @@ def run():
     train_generator, valid_generator, test_generator = load_dataset()
 
 
-    compute_device = get_compute_device()
+    #compute_device = get_compute_device()
     
     # Loading the model
     log_info("Loading model\n")
-    with tf.device(compute_device):
+    #with tf.device(compute_device):
+    with strategy.scope():
         model = build_model()
 
     callbacks_list = load_callbacks(config)
