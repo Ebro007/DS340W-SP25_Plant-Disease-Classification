@@ -90,6 +90,18 @@ def plot_training_summary(config):
         if not graph_dir.exists():
             graph_dir.mkdir(parents=True, exist_ok=True)
 
+        #Plotting the AUC
+        if 'auc' in df.columns:
+            fig = plt.figure(figsize=(10, 6))
+            plt.plot(df['auc'], "g*-", label="Training AUC")
+            plt.plot(df['val_auc'], "r*-", label="Validation AUC")
+            plt.title('Training and Validation AUC Graph')
+            plt.xlabel('Epoch')
+            plt.ylabel('AUC')
+            plt.grid("both")
+            plt.legend()
+            plt.savefig(str(graph_dir / f"4.auc-comparison{config['fig_format']}"))
+
         # Plotting the accuracy
         fig = plt.figure(figsize=(10, 6))
         plt.plot(df['accuracy'], "g*-", label="Training accuracy")
@@ -111,18 +123,6 @@ def plot_training_summary(config):
         plt.grid("both")
         plt.legend()
         plt.savefig(str(graph_dir / f"2.loss-comparison{config['fig_format']}"))
-
-        #Plotting the AUC
-        if 'auc' in df.columns:
-            fig = plt.figure(figsize=(10, 6))
-            plt.plot(df['auc'], "g*-", label="Training AUC")
-            plt.plot(df['val_auc'], "r*-", label="Validation AUC")
-            plt.title('Training and Validation AUC Graph')
-            plt.xlabel('Epoch')
-            plt.ylabel('AUC')
-            plt.grid("both")
-            plt.legend()
-            plt.savefig(str(graph_dir / f"4.auc-comparison{config['fig_format']}"))
 
         # Plotting the Learning Rate
         if 'lr' in df.columns:
