@@ -48,3 +48,17 @@
 [2025-04-13 22:09:31] [INFO] Time per epoch: 1391.0 seconds
 [2025-04-13 22:13:25] Classification report saved to MobileNetV2-Merged-Enhanced-1/graphs/classification_report_training.txt
 [2025-04-13 22:13:26] Confusion matrix saved to MobileNetV2-Merged-Enhanced-1/graphs/confusion_matrix_training.pdf
+[2025-04-13 18:41:24] Epoch 6 - loss: 1.9188, acc: 0.3790, auc: 0.7253, val_loss: 2.1601, val_acc: 0.3314, val_auc: 0.6598, lr: 0.0000
+[2025-04-13 19:02:59] Epoch 7 - loss: 1.8369, acc: 0.4023, auc: 0.7427, val_loss: 1.9893, val_acc: 0.3735, val_auc: 0.7030, lr: 0.0000
+[2025-04-13 19:25:16] Epoch 8 - loss: 1.7539, acc: 0.4286, auc: 0.7593, val_loss: 1.8388, val_acc: 0.4120, val_auc: 0.7510, lr: 0.0000
+[2025-04-13 19:29:12] Final ROC-AUC curve saved to MobileNetV3Large-Merged-enhanced-AUC1\graphs\roc_auc_final.png
+[2025-04-13 19:29:12] Model Training End Time: 1744586952.4526913
+
+[2025-04-13 19:29:12] Training History Saved
+
+[2025-04-13 19:29:12] Model Saved to MobileNetV3Large-Merged-enhanced-AUC1
+
+[2025-04-13 19:29:12] [INFO] Total Time elapsed: 10749.586101293564 seconds
+[2025-04-13 19:29:12] [INFO] Time per epoch: 1343.0 seconds
+[2025-04-13 19:32:56] Classification report saved to MobileNetV3Large-Merged-enhanced-AUC1\graphs\classification_report_training.txt
+[2025-04-13 19:32:57] Confusion matrix saved to MobileNetV3Large-Merged-enhanced-AUC1\graphs\confusion_matrix_training.pdf
