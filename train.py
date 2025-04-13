@@ -57,9 +57,6 @@ def run():
     with tf.device(compute_device):
         model = build_model()
 
-    
-    model = build_model()
-
     callbacks_list = load_callbacks(config)
     callbacks_list.append(EpochLogger())
     
@@ -69,7 +66,6 @@ def run():
         save_path= checkpoint_path / "graphs" / "roc_auc_final.png"
     )
     callbacks_list.append(final_roc_auc)
-    
     # Training the model
     start = time.time()
     log_info(f"Model Training Start Time: {start}\n")

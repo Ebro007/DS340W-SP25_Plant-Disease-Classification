@@ -7,6 +7,7 @@ from pathlib import Path
 from datetime import datetime
 from sklearn.metrics import roc_curve, auc
 import numpy as np
+from tensorflow.keras import backend as K
 
 # Setting default fontsize and dpi
 plt.rcParams["font.size"] = 12
@@ -52,15 +53,17 @@ def load_callbacks(config):
                                                 mode='min',
                                                 save_best_only=True)
 
+    early_stopping_monitor = 'val_acc'  # default for newer TF versions
+
     # Early Stopper Callback
-    early_stop = EarlyStopping(monitor='val_accuracy',
+    early_stop = EarlyStopping(monitor=early_stopping_monitor,
                                 mode = 'max',
                                 patience=10,
                                 verbose=1,
                                 min_delta=1e-4)
 
     # Learning Rate Scheduler
-    reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', mode = 'max', factor=0.1, patience=4, verbose=1, min_delta=1e-4)
+    reduce_lr = ReduceLROnPlateau(monitor=early_stopping_monitor, mode = 'max', factor=0.1, patience=4, verbose=1, min_delta=1e-4)
 
     callbacks_list = [early_stop, reduce_lr, model_checkpoint_callback]
     return callbacks_list
@@ -92,21 +95,28 @@ def plot_training_summary(config):
             graph_dir.mkdir(parents=True, exist_ok=True)
 
         #Plotting the AUC
-        if 'auc' in df.columns:
-            fig = plt.figure(figsize=(10, 6))
-            plt.plot(df['auc'], "g*-", label="Training AUC")
-            plt.plot(df['val_auc'], "r*-", label="Validation AUC")
-            plt.title('Training and Validation AUC Graph')
-            plt.xlabel('Epoch')
-            plt.ylabel('AUC')
-            plt.grid("both")
-            plt.legend()
-            plt.savefig(str(graph_dir / f"4.auc-comparison{config['fig_format']}"))
+        fig = plt.figure(figsize=(10, 6))
+        #if 'auc_1' in df.columns:
+        plt.plot(df['auc_1'], "g*-", label="Training AUC")
+        plt.plot(df['val_auc_1'], "r*-", label="Validation AUC")
+        #else:
+        #    plt.plot(df['auc'], "g*-", label="Training AUC")
+        #    plt.plot(df['val_auc'], "r*-", label="Validation AUC")
+        plt.title('Training and Validation AUC Graph')
+        plt.xlabel('Epoch')
+        plt.ylabel('AUC')
+        plt.grid("both")
+        plt.legend()
+        plt.savefig(str(graph_dir / f"4.auc-comparison{config['fig_format']}"))
 
         # Plotting the accuracy
         fig = plt.figure(figsize=(10, 6))
-        plt.plot(df['accuracy'], "g*-", label="Training accuracy")
-        plt.plot(df['val_accuracy'], "r*-", label="Validation accuracy")
+        #if 'val_accuracy' in df.columns:
+        #    plt.plot(df['accuracy'], "g*-", label="Training accuracy")
+        #    plt.plot(df['val_accuracy'], "r*-", label="Validation accuracy")
+        #else:
+        plt.plot(df['acc'], "g*-", label="Training accuracy")
+        plt.plot(df['val_acc'], "r*-", label="Validation accuracy")
         plt.title('Training and Validation Accuracy Graph')
         plt.xlabel('Epoch')
         plt.ylabel('Accuracy')
