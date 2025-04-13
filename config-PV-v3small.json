@@ -1,6 +1,6 @@
 {
-  "dataset_dir" : "/kaggle/working/DS340W-SP25_Plant-Disease-Classification/PV-Tomato",
-  "checkpoint_filepath": "/kaggle/working/DS340W-SP25_Plant-Disease-Classification/MobileNetV3Small-PV-Enhanced-AUC",
+  "dataset_dir" : "./PV-Tomato",
+  "checkpoint_filepath": "./MobileNetV3Small-PV-Enhanced-AUC",
   "add_dense": true,
   "img_height": 224,
   "img_width": 224,
