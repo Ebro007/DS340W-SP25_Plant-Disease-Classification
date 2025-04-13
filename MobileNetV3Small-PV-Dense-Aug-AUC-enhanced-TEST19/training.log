@@ -1,1 +1,26 @@
 [2025-04-13 10:58:52] Epoch 1 - loss: 2.7172, acc: 0.1379, auc: 0.5465, val_loss: 2.4123, val_acc: 0.2890, val_auc: 0.5138, lr: 0.0000
+[2025-04-13 11:19:48] Epoch 2 - loss: 2.4321, acc: 0.2096, auc: 0.6057, val_loss: 2.8251, val_acc: 0.2857, val_auc: 0.4516, lr: 0.0000
+[2025-04-13 11:40:34] Epoch 3 - loss: 2.2388, acc: 0.2651, auc: 0.6458, val_loss: 3.1482, val_acc: 0.2893, val_auc: 0.4539, lr: 0.0000
+[2025-04-13 12:01:21] Epoch 4 - loss: 2.0562, acc: 0.3255, auc: 0.6863, val_loss: 2.6792, val_acc: 0.2418, val_auc: 0.5182, lr: 0.0000
+[2025-04-13 12:22:10] Epoch 5 - loss: 1.9323, acc: 0.3635, auc: 0.7113, val_loss: 2.4008, val_acc: 0.2278, val_auc: 0.5965, lr: 0.0000
+[2025-04-13 12:43:16] Epoch 6 - loss: 1.8281, acc: 0.4006, auc: 0.7325, val_loss: 2.1417, val_acc: 0.2983, val_auc: 0.6503, lr: 0.0000
+[2025-04-13 13:04:06] Epoch 7 - loss: 1.7147, acc: 0.4311, auc: 0.7605, val_loss: 2.0670, val_acc: 0.3235, val_auc: 0.6842, lr: 0.0000
+[2025-04-13 13:25:00] Epoch 8 - loss: 1.6301, acc: 0.4647, auc: 0.7754, val_loss: 1.9799, val_acc: 0.3436, val_auc: 0.7227, lr: 0.0000
+[2025-04-13 13:28:50] Final ROC-AUC curve saved to MobileNetV3Small-Merged-Enhanced-AUC1\graphs\roc_auc_final.png
+[2025-04-13 13:28:50] Model Training End Time: 1744565330.809136
+
+[2025-04-13 13:28:50] Training History Saved
+
+[2025-04-13 13:28:51] Model Saved to MobileNetV3Small-Merged-Enhanced-AUC1
+
+[2025-04-13 13:28:51] [INFO] Total Time elapsed: 10262.213261842728 seconds
+[2025-04-13 13:28:51] [INFO] Time per epoch: 1282.0 seconds
+[2025-04-13 13:32:27] Classification report saved to MobileNetV3Small-Merged-Enhanced-AUC1\graphs\classification_report_training.txt
+[2025-04-13 13:32:28] Confusion matrix saved to MobileNetV3Small-Merged-Enhanced-AUC1\graphs\confusion_matrix_training.pdf
+[2025-04-13 13:32:33] {'dataset_dir': './Tomato-PV', 'checkpoint_filepath': './MobileNetV2-Merged-Enhanced-AUC1', 'add_dense': True, 'img_height': 224, 'img_width': 224, 'batch_size': 16, 'epochs': 8, 'n_classes': 10, 'seed': 42, 'fig_format': '.pdf', 'data_augmentations': {'TRAIN_AUG': True, 'VALID_AUG': True, 'TEST_AUG': False, 'rotation_range': 20, 'horizontal_flip': True, 'width_shift_range': 0.2, 'height_shift_range': 0.2, 'shear_range': 0.2}, 'model_configuration': {'backbone_name': 'mobilenetv2', 'optimizer': 'adam'}, 'learning_rates': {'initial_lr': 1e-05, 'max_lr': 0.0001}, 'version': '1.0.0'}
+[2025-04-13 13:32:34] Loading model
+
+[2025-04-13 13:32:35] Model Training Start Time: 1744565555.4551096
+
+[2025-04-13 13:53:52] Epoch 1 - loss: 2.8133, acc: 0.1217, auc: 0.5376, val_loss: 2.4969, val_acc: 0.2890, val_auc: 0.5301, lr: 0.0000
+[2025-04-13 14:15:02] Epoch 2 - loss: 2.5138, acc: 0.2018, auc: 0.5905, val_loss: 2.5001, val_acc: 0.2890, val_auc: 0.4624, lr: 0.0000

@@ -47,7 +47,6 @@ def print_config(config_dict=None):
 def load_callbacks(config):
     # Model Saving Checkpoints
     checkpoint_filepath = Path(config["checkpoint_filepath"])
-    #model_checkpoint_callback = ModelCheckpoint(filepath=str(checkpoint_filepath / 'model_snapshot.h5'),
     model_checkpoint_callback = ModelCheckpoint(filepath=str(checkpoint_filepath / 'model_snapshot.keras'),
                                                 save_weights_only=False,
                                                 monitor='val_loss',
