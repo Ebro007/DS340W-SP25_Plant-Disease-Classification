@@ -1,8 +1,8 @@
 import sys
-import os
+#import os
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="keras.src.trainers.data_adapters.py_dataset_adapter")
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress INFO/WARNING logs
+#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress INFO/WARNING logs
 import json
 import time
 
@@ -81,7 +81,7 @@ def run():
         print(f"[INFO] Creating directory {config['checkpoint_filepath']} to save the trained model")
         checkpoint_path.mkdir(parents=True, exist_ok=True)
     print(f"[INFO] Saving the model and log in \"{config['checkpoint_filepath']}\" directory")
-    model.save(str(checkpoint_path / 'saved_model.h5'))
+    model.save(str(checkpoint_path / 'saved_model.keras'))
     log_info(f"Model Saved to {checkpoint_path}\n")
     
     # Saving the Training History

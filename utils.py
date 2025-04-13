@@ -1,4 +1,4 @@
-import os
+#import os
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -46,20 +46,20 @@ def print_config(config_dict=None):
 def load_callbacks(config):
     # Model Saving Checkpoints
     checkpoint_filepath = Path(config["checkpoint_filepath"])
-    model_checkpoint_callback = ModelCheckpoint(filepath=str(checkpoint_filepath / 'model_snapshot.h5'),
+    model_checkpoint_callback = ModelCheckpoint(filepath=str(checkpoint_filepath / 'model_snapshot.keras'),
                                                 save_weights_only=False,
-                                                monitor='val_acc',
-                                                mode='max',
+                                                monitor='val_loss',
+                                                mode='min',
                                                 save_best_only=True)
 
     # Early Stopper Callback
-    early_stop = EarlyStopping(monitor='val_acc',
+    early_stop = EarlyStopping(monitor='val_accuracy',
                                 patience=10,
                                 verbose=1,
                                 min_delta=1e-4)
 
     # Learning Rate Scheduler
-    reduce_lr = ReduceLROnPlateau(monitor='val_acc', factor=0.1, patience=4, verbose=1, min_delta=1e-4)
+    reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', factor=0.1, patience=4, verbose=1, min_delta=1e-4)
 
     callbacks_list = [early_stop, reduce_lr, model_checkpoint_callback]
     return callbacks_list
@@ -92,8 +92,8 @@ def plot_training_summary(config):
 
         # Plotting the accuracy
         fig = plt.figure(figsize=(10, 6))
-        plt.plot(df['acc'], "g*-", label="Training accuracy")
-        plt.plot(df['val_acc'], "r*-", label="Validation accuracy")
+        plt.plot(df['accuracy'], "g*-", label="Training accuracy")
+        plt.plot(df['val_accuracy'], "r*-", label="Validation accuracy")
         plt.title('Training and Validation Accuracy Graph')
         plt.xlabel('Epoch')
         plt.ylabel('Accuracy')

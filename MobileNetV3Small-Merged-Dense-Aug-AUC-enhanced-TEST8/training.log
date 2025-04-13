@@ -4,3 +4,11 @@
 [2025-04-12 20:38:40] Model Training Start Time: 1744504720.8372686
 
 [2025-04-12 21:12:19] Epoch 1 - loss: 2.7656, acc: 0.1407, auc: 0.5506, val_loss: 2.6470, val_acc: 0.1044, val_auc: 0.4920, lr: 0.0000
+[2025-04-12 21:45:52] Epoch 2 - loss: 2.4640, acc: 0.2176, auc: 0.6141, val_loss: 3.0672, val_acc: 0.0724, val_auc: 0.4875, lr: 0.0000
+[2025-04-12 21:51:57] Final ROC-AUC curve saved to MobileNetV3Small-Merged-Dense-Aug-AUC-enhanced-TEST8\graphs\roc_auc_final.png
+[2025-04-12 21:51:57] Model Training End Time: 1744509117.9576657
+
+[2025-04-12 21:51:58] Model Saved to MobileNetV3Small-Merged-Dense-Aug-AUC-enhanced-TEST8
+
+[2025-04-12 21:51:58] Training History Saved
+
