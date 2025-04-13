@@ -46,7 +46,7 @@ def run():
     else:
         config_file = "config.json"
         
-    config = json.load(open("config.json", "r"))
+    config = json.load(open(config_file, "r"))
     checkpoint_path = Path(config["checkpoint_filepath"])
     print_config(config)
     log_info(config)
