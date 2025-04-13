@@ -54,12 +54,13 @@ def load_callbacks(config):
 
     # Early Stopper Callback
     early_stop = EarlyStopping(monitor='val_accuracy',
+                                mode = 'max',
                                 patience=10,
                                 verbose=1,
                                 min_delta=1e-4)
 
     # Learning Rate Scheduler
-    reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', factor=0.1, patience=4, verbose=1, min_delta=1e-4)
+    reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', mode = 'max', factor=0.1, patience=4, verbose=1, min_delta=1e-4)
 
     callbacks_list = [early_stop, reduce_lr, model_checkpoint_callback]
     return callbacks_list

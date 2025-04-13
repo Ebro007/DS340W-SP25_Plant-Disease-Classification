@@ -49,7 +49,7 @@ def load_dataset(config_file="config.json"):
     
     train_csv = dataset_dir / "train.csv"
     train_generator = datagen.flow_from_dataframe(pd.read_csv(train_csv),
-                                                        directory=None,
+                                                        directory=dataset_dir,
                                                         x_col='filepath',
                                                         y_col='label_tag',
                                                         target_size=(config["img_height"], config["img_width"]),
@@ -67,7 +67,7 @@ def load_dataset(config_file="config.json"):
     
     valid_csv = dataset_dir / "valid.csv"
     valid_generator = datagen.flow_from_dataframe(pd.read_csv(valid_csv),
-                                                        directory=None,
+                                                        directory=dataset_dir,
                                                         x_col='filepath',
                                                         y_col='label_tag',
                                                         target_size=(config["img_height"], config["img_width"]),
@@ -86,7 +86,7 @@ def load_dataset(config_file="config.json"):
     test_csv = dataset_dir / "test.csv"
     test_datagen = ImageDataGenerator(preprocessing_function=preprocessing)
     test_generator = test_datagen.flow_from_dataframe(pd.read_csv(test_csv),
-                                                        directory=None,
+                                                        directory=dataset_dir,
                                                         x_col='filepath',
                                                         y_col='label_tag',
                                                         target_size=(config["img_height"], config["img_width"]),
