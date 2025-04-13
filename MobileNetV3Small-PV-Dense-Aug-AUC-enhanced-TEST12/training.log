@@ -1,0 +1,14 @@
+[2025-04-13 03:41:22] {'dataset_dir': './Tomato-PV', 'checkpoint_filepath': './MobileNetV3Small-PV-Dense-Aug-AUC-enhanced-TEST12', 'add_dense': True, 'img_height': 224, 'img_width': 224, 'batch_size': 16, 'epochs': 2, 'n_classes': 10, 'seed': 42, 'fig_format': '.pdf', 'data_augmentations': {'TRAIN_AUG': True, 'VALID_AUG': True, 'TEST_AUG': False, 'rotation_range': 20, 'horizontal_flip': True, 'width_shift_range': 0.2, 'height_shift_range': 0.2, 'shear_range': 0.2}, 'model_configuration': {'backbone_name': 'mobilenetv3small', 'optimizer': 'adam'}, 'learning_rates': {'initial_lr': 1e-05, 'max_lr': 0.0001}, 'version': '1.0.0'}
+[2025-04-13 03:41:23] Loading model
+
+[2025-04-13 03:41:26] Model Training Start Time: 1744515686.366185
+
+[2025-04-13 04:06:02] Epoch 1 - acc: 0.1322, auc_1: 0.5251, loss: 2.8283, val_acc: 0.0756, val_auc_1: 0.4810, val_loss: 3.0610, learning_rate: 0.0000
+[2025-04-13 04:29:12] Epoch 2 - acc: 0.2066, auc_1: 0.5955, loss: 2.5012, val_acc: 0.0784, val_auc_1: 0.4968, val_loss: 2.7929, learning_rate: 0.0000
+[2025-04-13 04:33:48] Final ROC-AUC curve saved to MobileNetV3Small-PV-Dense-Aug-AUC-enhanced-TEST12/graphs/roc_auc_final.png
+[2025-04-13 04:33:48] Model Training End Time: 1744518828.3954422
+
+[2025-04-13 04:33:48] Model Saved to MobileNetV3Small-PV-Dense-Aug-AUC-enhanced-TEST12
+
+[2025-04-13 04:33:48] Training History Saved
+
