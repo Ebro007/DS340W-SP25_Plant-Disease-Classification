@@ -22,3 +22,7 @@ The data in the repository is processed.
 If you want to run several models sequentially, then all the config.json files for the different models need to be modified and included in the run_multiple_configs.py file.
 
 Otherwise, run train.py
+
+    Depending on the version of tensorflow, you may need to adjust the callback model on line 50 of utils.py to save as .keras instead of .h5, and line 51 needs to become save_weights_only=False.
+
+    May also need to modify the config.json file to include update dir path, model, and parameters.
